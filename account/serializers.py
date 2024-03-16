@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import User
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(style={'input_type':'password'},write_only=True)
+    password2 = serializers.CharField(style={'input_type':'password'},write_only=True)
     class Meta:
         model=User
         fields = ['email','name','password','password2','tc']
@@ -12,7 +12,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         password=attrs.get('password')
-        password2=attrs.get('password2')
+        password2=attrs.pop('password2')
         if password!=password2:
             raise serializers.ValidationError("Passwords do not match")
         return attrs
